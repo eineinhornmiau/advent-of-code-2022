@@ -5,9 +5,7 @@ fun main() {
 
         for (line in input) {
             if (line == "") {
-                if (temp > highest) {
-                    highest = temp
-                }
+                highest = highest.coerceAtLeast(temp)
                 temp = 0
                 continue
             }
@@ -35,8 +33,6 @@ fun main() {
         }
 
         elves.sortDescending()
-
-        println(elves)
 
         return elves[0] + elves[1] + elves[2]
     }
