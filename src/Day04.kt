@@ -1,5 +1,18 @@
-fun main() {
+fun IntRange.contains(range: IntRange): Boolean {
+    return this.first <= range.first && this.last >= range.last
+}
 
+fun IntRange.overlaps(range: IntRange): Boolean {
+    for (i in this) {
+        if (range.contains(i)) {
+            return true
+        }
+    }
+
+    return false
+}
+
+fun main() {
     fun part1(input: List<String>): Int {
         var sames = 0
         for (line in input) {
@@ -9,12 +22,7 @@ fun main() {
             val firstRange = firstElve.substringBefore("-").toInt()..firstElve.substringAfter("-").toInt()
             val secondRange = secondElve.substringBefore("-").toInt()..secondElve.substringAfter("-").toInt()
 
-            if (firstRange.first <= secondRange.first && firstRange.last >= secondRange.last) {
-                sames++
-                continue
-            }
-
-            if (secondRange.first <= firstRange.first && secondRange.last >= firstRange.last) {
+            if (firstRange.contains(secondRange) || secondRange.contains(firstRange)) {
                 sames++
                 continue
             }
@@ -31,11 +39,8 @@ fun main() {
             val firstRange = firstElve.substringBefore("-").toInt()..firstElve.substringAfter("-").toInt()
             val secondRange = secondElve.substringBefore("-").toInt()..secondElve.substringAfter("-").toInt()
 
-            for (i in firstRange) {
-                if (secondRange.contains(i)) {
-                    overlaps++
-                    break
-                }
+            if (firstRange.overlaps(secondRange)) {
+                overlaps++
             }
         }
         return overlaps
